@@ -4,6 +4,10 @@ if [ "$EUID" -ne 0 ]; then
 	exec sudo "$0" "$@"
 fi
 
+if ! systemctl is-active --quiet lldpd; then
+	systemctl start lldpd
+fi
+
 VALUE=$0
 WERT=$(pidof -x "${VALUE##*/}" | wc -w)
 ZAHL=2
